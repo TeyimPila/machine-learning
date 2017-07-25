@@ -16,6 +16,9 @@ sim = 0;
 %
 %
 
+sumOfSqrDistance = sum((x1 .- x2).^2);
+
+sim = exp(-(sumOfSqrDistance)/(2*(sigma^2)));
 
 
 
