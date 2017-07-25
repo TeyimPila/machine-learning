@@ -24,9 +24,50 @@ sigma = 0.3;
 %
 
 
+C_trials = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+sigma_trials = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+
+for i = 1:length(C_trials)
+    C = C_trials(i);
+    for j = 1:length(sigma_trials)
+        sigma = sigma_trials(j);
+        
+        model = svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
+        predictions = svmPredict(model,Xval);
+
+        error(j) = mean(double(predictions ~= yval));
+
+        error(j)
 
 
+% Accumulating error from i = 1:m i.e. all the dataset
+        if (j == 1)
+            error_j = error(j);
+        else
+            error_j = [error_j; error(j)];
+        end
+    end
+    if (i == 1)
+        error_i = error_j;
+    else
+        error_i = [error_i error_j];
+    end            
+end
 
+% Display the error_i in matrix
+error_i
+
+% Locate the index of the minimum value in matrix error_i
+[r, c] = find(error_i == min(min(error_i)));
+
+% Optimum C and sigma are identified from the matrix above
+C = C_trials(c)
+sigma = sigma_trials(r)
+
+% From running this example, the optimal value of the algorithm 
+% occurs when:
+% C = 1
+% sigma = 0.1
 
 
 % =========================================================================
