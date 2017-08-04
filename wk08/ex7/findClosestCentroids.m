@@ -20,6 +20,17 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+N = size(X, 2) % counts the number of columns in X;
+for i = 1:length(X)
+    for k = 1:K
+        for n = 1:N % loop through columns of X
+            d(n) = (X(i, n) - centroids(k, n)).^2;
+        end
+        dist(k) = sum(d);
+    end 
+    [r,c] = min(dist);		% Find the index of the min distance btw X and centroids
+	idx(i) = c;				% Assign for each X which centroid it belongs to
+end
 
 
 
