@@ -20,6 +20,11 @@ S = zeros(n);
 %       number of examples).
 %
 
+sigma = (X'*X)./m; % The Covarience matrix
+
+[U, S, V] = svd(sigma);
+
+
 
 
 
